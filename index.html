@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxing Round Interval Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="gloves.png" alt="Boxing Gloves" class="logo">
+            <h1>Boxing Round Timer</h1>
+        </div>
+        
+        <div class="mode-toggle-container">
+            <div class="mode-buttons">
+                <button id="mode-toggle" class="btn toggle-mode">Light Mode</button>
+                <button id="mute-toggle" class="btn toggle-mode">
+                    <span class="mute-icon">🔊</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="timer-display">
+            <div class="time-remaining">
+                <span id="minutes">3</span>:<span id="seconds">00</span>
+            </div>
+            <div class="round-info">
+                <span>Round: <span id="current-round">0</span>/<span id="total-rounds">12</span></span>
+            </div>
+            <div class="status" id="status">READY</div>
+        </div>
+        
+        <div class="controls">
+            <div class="settings">
+                <div class="setting-group">
+                    <label for="round-time">Round Time (min):</label>
+                    <input type="number" id="round-time" min="1" max="5" value="3">
+                </div>
+                <div class="setting-group">
+                    <label for="rest-time">Rest Time (sec):</label>
+                    <input type="number" id="rest-time" min="10" max="90" value="60">
+                </div>
+                <div class="setting-group">
+                    <label for="num-rounds">Number of Rounds:</label>
+                    <input type="number" id="num-rounds" min="1" max="15" value="12">
+                </div>
+                <div class="setting-group">
+                    <label for="prep-time">Prep Time (sec):</label>
+                    <input type="number" id="prep-time" min="0" max="60" value="10">
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="start-btn" class="btn start">START</button>
+                <button id="pause-btn" class="btn pause" disabled>PAUSE</button>
+                <button id="reset-btn" class="btn reset">RESET</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bell" style="display: none;"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
