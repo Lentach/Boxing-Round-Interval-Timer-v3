@@ -292,6 +292,33 @@ body.light-mode .btn.toggle-mode:hover:not(:disabled) {
     font-size: 1.2rem;
 }
 
+.input-with-unit {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.input-with-unit input {
+    flex: 2;
+}
+
+.input-with-unit select {
+    flex: 1;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode .input-with-unit select {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
 @media (max-width: 500px) {
     .container {
         padding: 1rem;

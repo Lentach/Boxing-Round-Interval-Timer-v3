@@ -5,6 +5,7 @@ const currentRoundEl = document.getElementById('current-round');
 const totalRoundsEl = document.getElementById('total-rounds');
 const statusEl = document.getElementById('status');
 const roundTimeInput = document.getElementById('round-time');
+const roundTimeUnitSelect = document.getElementById('round-time-unit');
 const restTimeInput = document.getElementById('rest-time');
 const numRoundsInput = document.getElementById('num-rounds');
 const prepTimeInput = document.getElementById('prep-time');
@@ -20,10 +21,11 @@ const modeToggleBtn = document.getElementById('mode-toggle');
 // Audio Context for generated sounds
 let audioContext = null;
 
-// Audio files
-const startBellSound = new Audio('round_start.mp3');
-const endBellSound = new Audio('round_end.mp3');
-const warningSound = new Audio('warning_beep.mp3');
+// Audio files (now loaded from the 'audio/' folder)
+const startBellSound = new Audio('audio/round_start.mp3');
+const endBellSound = new Audio('audio/round_end.mp3');
+const warningSound = new Audio('audio/warning_beep.mp3');
+const halfwaySound = new Audio('audio/halfway_beep.mp3'); // New halfway sound
 
 // Mute state
 let isMuted = false;
@@ -114,7 +116,14 @@ function applySavedMode() {
 // Initialize the timer display and settings
 function initializeTimer() {
     totalRounds = parseInt(numRoundsInput.value);
-    roundTimeInSeconds = parseInt(roundTimeInput.value) * 60;
+    
+    // Calculate round time based on unit selection
+    if (roundTimeUnitSelect.value === 'min') {
+        roundTimeInSeconds = parseInt(roundTimeInput.value) * 60;
+    } else {
+        roundTimeInSeconds = parseInt(roundTimeInput.value);
+    }
+    
     restTimeInSeconds = parseInt(restTimeInput.value);
     prepTimeInSeconds = parseInt(prepTimeInput.value);
 
@@ -145,6 +154,7 @@ function startTimer() {
     if (isRunning && !isPaused) return;
 
     roundTimeInput.disabled = true;
+    roundTimeUnitSelect.disabled = true;
     restTimeInput.disabled = true;
     numRoundsInput.disabled = true;
     prepTimeInput.disabled = true;
@@ -230,6 +240,7 @@ function resetTimer() {
     currentPhase = 'ready'; 
 
     roundTimeInput.disabled = false;
+    roundTimeUnitSelect.disabled = false;
     restTimeInput.disabled = false;
     numRoundsInput.disabled = false;
     prepTimeInput.disabled = false;
@@ -245,6 +256,15 @@ function resetTimer() {
 function updateTimer() {
     currentTimeInSeconds--;
     
+    // Log timer tick for debugging
+    console.log('script.js: updateTimer - currentTimeInSeconds:', currentTimeInSeconds, 'currentPhase:', currentPhase);
+
+    // Play halfway sound at the halfway point of the round
+    if (currentPhase === 'fight' && currentTimeInSeconds === Math.floor(roundTimeInSeconds / 2)) {
+        console.log('script.js: updateTimer - Playing halfway sound!');
+        playSound(halfwaySound);
+    }
+
     if (currentTimeInSeconds === 10 &&
         (currentPhase === 'fight' || currentPhase === 'rest' || (currentPhase === 'prep' && prepTimeInSeconds > 10)))
     {
@@ -306,6 +326,7 @@ function endWorkout() {
     
     playSound(endBellSound);
     roundTimeInput.disabled = false;
+    roundTimeUnitSelect.disabled = false;
     restTimeInput.disabled = false;
     numRoundsInput.disabled = false;
     prepTimeInput.disabled = false;
